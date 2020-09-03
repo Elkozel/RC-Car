@@ -18,7 +18,7 @@ class MotorController
 {
 private:
 	int enabled;
-	int16_t valPMW;
+	int16_t valPWM;
 
 protected:
 	MotorController();

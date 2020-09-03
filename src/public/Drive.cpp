@@ -3,7 +3,7 @@
 
 MotorController::MotorController()
 {
-	this->valPMW = 0;
+	this->valPWM = 0;
 	this->enabled = 0;
 }
 
@@ -26,15 +26,15 @@ void MotorController::setPWM(int16_t value)
 		uint16_t mask = 0b0000001111111111;
 		this->valPWM = (value & mask);
 		if (value < 0)
-			this->valPMW *= -1;
+			this->valPWM *= -1;
 	}
 }
 
 void MotorController::brake() { this->valPWM = 0; }
 
-int MotorController::isEnabled() { return this->enable; }
+int MotorController::isEnabled() { return this->enable(); }
 
-int16_t MotorController::getPWM() { return this->valPMW; }
+int16_t MotorController::getPWM() { return this->valPWM; }
 
 L298N::Motor::Motor() {};
 
@@ -170,7 +170,7 @@ void BTS7960::disable()
 void BTS7960::setPWM(int16_t value)
 {
 	MotorController::setPWM(value);
-	if (this->getPWM < 0)
+	if (this->getPWM() < 0)
 	{
 		pwmWrite(RPWM, (int)getPWM());
 		pwmWrite(LPWM, 0);
