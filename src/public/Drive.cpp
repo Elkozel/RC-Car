@@ -32,7 +32,7 @@ void MotorController::setPWM(int16_t value)
 
 void MotorController::brake() { this->valPWM = 0; }
 
-int MotorController::isEnabled() { return this->enable(); }
+int MotorController::isEnabled() { return this->enabled; }
 
 int16_t MotorController::getPWM() { return this->valPWM; }
 
