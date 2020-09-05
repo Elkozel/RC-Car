@@ -55,6 +55,8 @@ int main()
 
 	addr_len = sizeof(cliaddr); //len is value/resuslt
 
+bridge.enable();
+
 	while (true)
 	{
 		msg_len = guard(recvfrom(sockfd, (char *)buffer, BUF_SIZE, MSG_WAITALL, (struct sockaddr *)&cliaddr, &addr_len), "Unable to read from socket");
