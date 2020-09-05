@@ -23,10 +23,12 @@ void MotorController::setPWM(int16_t value)
 {
 	if (isEnabled())
 	{
-		uint16_t mask = 0b0000001111111111;
-		this->valPWM = (value & mask);
-		if (value < 0)
-			this->valPWM *= -1;
+		if (value > 1024)
+			this->valPWM = 1024;
+		else if (value < -1024)
+			this->valPWM = -1024;
+		else
+			this->valPWM = value;
 	}
 }
 
@@ -36,7 +38,7 @@ int MotorController::isEnabled() { return this->enabled; }
 
 int16_t MotorController::getPWM() { return this->valPWM; }
 
-L298N::Motor::Motor() {};
+L298N::Motor::Motor(){};
 
 L298N::Motor::Motor(uint8_t IN_F, uint8_t IN_B, uint8_t EN, uint8_t PWM) : MotorController()
 {
