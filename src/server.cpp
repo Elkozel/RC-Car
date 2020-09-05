@@ -31,7 +31,7 @@ int guard(int check, const char *msg)
 }
 
 //! Please change the pins with the ones that are actually in use!
-L298N bridge(1, 2, 3, 4, 5, 6, 7, 8); // The H-Bridge controller
+L298N bridge(7, 21, 22, 23, 24, 25, 4, 5); // The H-Bridge controller
 
 int main()
 {
@@ -54,6 +54,8 @@ int main()
 	ssize_t msg_len;
 
 	addr_len = sizeof(cliaddr); //len is value/resuslt
+
+bridge.enable();
 
 	while (true)
 	{

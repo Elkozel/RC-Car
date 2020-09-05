@@ -13,3 +13,5 @@ find_library(wiringPi_LIB wiringPi)
 find_package( Threads )
 target_link_libraries(RC-Car ${wiringPi_LIB})
 target_link_libraries(RC-Car ${CMAKE_THREAD_LIBS_INIT} )
+
+add_compile_definitions(SOFTPWM)
