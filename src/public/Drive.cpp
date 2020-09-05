@@ -104,9 +104,9 @@ void L298N::Motor::setPWM(int16_t value)
 		digitalWrite(IN_B, LOW);
 	}
 	#ifdef SOFTPWM
-	softPwmWrite (PWM, (int)getPWM());
+	softPwmWrite (PWM, abs((int)getPWM()));
 	#else
-	pwmWrite(PWM, (int)getPWM());
+	pwmWrite(PWM, abs((int)getPWM()));
 	#endif
 }
 
