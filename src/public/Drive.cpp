@@ -3,8 +3,6 @@
 #include <softPwm.h>
 #include <RC-Car/Drive.h>
 
-#define SOFTPWM
-
 MotorController::MotorController()
 {
 	this->valPWM = 0;
