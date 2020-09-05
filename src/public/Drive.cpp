@@ -5,6 +5,23 @@
 
 #define SOFTPWM
 
+/**
+ * Coppied from server.cpp
+ * A guard function which looks for errors returned from system calls.
+ * 
+ * @param check the code returned by the system call
+ * @param msg the message to be displayed if the return code indicates an error
+ */
+int guard(int check, const char *msg)
+{
+	if (check < 0)
+	{
+		std::cerr << msg << std::endl;
+		exit(errno);
+	}
+	return check;
+}
+
 MotorController::MotorController()
 {
 	this->valPWM = 0;
@@ -53,13 +70,7 @@ L298N::Motor::Motor(uint8_t IN_F, uint8_t IN_B, uint8_t EN, uint8_t PWM) : Motor
 
 	// Set the pinMode of each pin
 	#ifdef SOFTPWM
-	int check = softPwmCreate (PWM, 0, 1024);
-	if (check < 0)
-	{
-		std::cerr << msg << std::endl;
-		exit(errno);
-	}
-	return check;
+	guard(softPwmCreate (PWM, 0, 1024), "Failed intializing SoftPWM");
 	#else
 	pinMode(PWM, OUTPUT);
 	#endif
