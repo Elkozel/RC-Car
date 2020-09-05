@@ -40,7 +40,7 @@ int main()
 	struct sockaddr_in servaddr, cliaddr = {0};
 
 	// Creating socket file descriptor
-	guard(socket(AF_INET, SOCK_DGRAM, 0), "Failed to create socket");
+	sockfd = guard(socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP), "Failed to create socket");
 
 	// Filling server information
 	servaddr.sin_family = AF_INET; // IPv4
