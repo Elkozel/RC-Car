@@ -9,3 +9,7 @@ include_directories(include)
 add_executable (RC-Car "src/server.cpp" "src/server.h" "src/public/Drive.cpp" "include/RC-Car/Drive.h")
 
 # TODO: Add tests and install targets if needed.
+find_library(wiringPi_LIB wiringPi)
+find_package( Threads )
+target_link_libraries(RC-Car ${wiringPi_LIB})
+target_link_libraries(RC-Car ${CMAKE_THREAD_LIBS_INIT} )
