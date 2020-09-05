@@ -70,7 +70,11 @@ L298N::Motor::Motor(uint8_t IN_F, uint8_t IN_B, uint8_t EN, uint8_t PWM) : Motor
 
 	// Set the pinMode of each pin
 	#ifdef SOFTPWM
-	guard(softPwmCreate (PWM, 0, 1024), "Failed intializing SoftPWM");
+	int err = softPwmCreate (PWM, 0, 1024);
+	if(err != 0){
+		std::cerr << "Error initializing PWM" << std::endl;
+		exit(errno);
+	}
 	#else
 	pinMode(PWM, OUTPUT);
 	#endif
