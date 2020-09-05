@@ -1,4 +1,5 @@
 #include <wiringPi.h>
+#include <iostream>
 #include <RC-Car/Drive.h>
 
 MotorController::MotorController()
@@ -48,13 +49,25 @@ L298N::Motor::Motor(uint8_t IN_F, uint8_t IN_B, uint8_t EN, uint8_t PWM) : Motor
 	wiringPiSetup();
 
 	// Set the pinMode of each pin
+	#ifdef SOFTPWM
+	int check = softPwmCreate (PWM, 0, 1024);
+	if (check < 0)
+	{
+		std::cerr << msg << std::endl;
+		exit(errno);
+	}
+	return check;
+	#else
 	pinMode(PWM, OUTPUT);
+	#endif
 	pinMode(EN, OUTPUT);
 	pinMode(IN_F, OUTPUT);
 	pinMode(IN_B, OUTPUT);
 
 	// Bring controller to a start state
+	#ifndef SOFTPWM
 	digitalWrite(PWM, LOW);
+	#endif
 	digitalWrite(EN, LOW);
 	digitalWrite(IN_F, LOW);
 	digitalWrite(IN_B, LOW);
@@ -89,7 +102,11 @@ void L298N::Motor::setPWM(int16_t value)
 		digitalWrite(IN_F, HIGH);
 		digitalWrite(IN_B, LOW);
 	}
+	#ifdef SOFTPWM
+	softPwmWrite (PWM, (int)getPWM());
+	#else
 	pwmWrite(PWM, (int)getPWM());
+	#endif
 }
 
 void L298N::Motor::brake()
@@ -97,7 +114,11 @@ void L298N::Motor::brake()
 	MotorController::brake();
 	digitalWrite(IN_F, HIGH);
 	digitalWrite(IN_B, HIGH);
+	#ifdef SOFTPWM
+	softPwmWrite (PWM, 0);
+	#else
 	pwmWrite(PWM, 0);
+	#endif
 }
 
 L298N::L298N(uint8_t IN1, uint8_t IN2, uint8_t IN3, uint8_t IN4, uint8_t ENA, uint8_t ENB, uint8_t PWMA, uint8_t PWMB)
